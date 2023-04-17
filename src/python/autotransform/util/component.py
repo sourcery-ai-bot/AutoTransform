@@ -271,10 +271,7 @@ class ComponentFactory(Generic[T], ABC):
         while True:
             component_json = get_str(f"Enter JSON encoded {component_class.__name__}: ")
             try:
-                if component_json != "":
-                    component_data = json.loads(component_json)
-                else:
-                    component_data = {}
+                component_data = json.loads(component_json) if component_json != "" else {}
                 if not isinstance(component_data, Dict):
                     error("Invalid JSON data, must be Dict")
                     continue

@@ -59,11 +59,7 @@ class Manager(ComponentModel):
             run_local (bool, optional): Whether to use local runners. Defaults to False.
         """
 
-        if run_local:
-            runner = get_config().local_runner
-        else:
-            runner = get_config().remote_runner
-
+        runner = get_config().local_runner if run_local else get_config().remote_runner
         UpdateAction.set_runner(runner or LocalRunner())
 
         changes = self.repo.get_outstanding_changes()
@@ -198,11 +194,16 @@ class Manager(ComponentModel):
             )
 
         # Update stale changes
-        if simple or choose_yes_or_no("Automatically update stale changes?"):
-            if simple:
-                days_stale = 7
-            else:
-                days_stale = input_int("Enter number of days until stale", min_val=1)
+        if (
+            simple
+            or not simple
+            and choose_yes_or_no("Automatically update stale changes?")
+        ):
+            days_stale = (
+                7
+                if simple
+                else input_int("Enter number of days until stale", min_val=1)
+            )
             steps.append(
                 ConditionalStep(
                     condition=UpdatedAgoCondition(

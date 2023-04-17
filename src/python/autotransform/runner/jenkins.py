@@ -48,8 +48,9 @@ class JenkinsAPIRunner(Runner):
         job_params = {"COMMAND": "run", "SCHEMA_NAME": schema.config.schema_name}
         if schema.config.max_submissions:
             job_params["MAX_SUBMISSIONS"] = str(schema.config.max_submissions)
-        shard_filter = [filt for filt in schema.filters if isinstance(filt, ShardFilter)]
-        if shard_filter:
+        if shard_filter := [
+            filt for filt in schema.filters if isinstance(filt, ShardFilter)
+        ]:
             job_params["FILTER"] = json.dumps(shard_filter[0].bundle())
 
         self._run_jenkins_job(self.job_name, job_params)
@@ -142,8 +143,9 @@ class JenkinsFileRunner(Runner):
         job_params = {"COMMAND": "run", "SCHEMA_NAME": schema.config.schema_name}
         if schema.config.max_submissions:
             job_params["MAX_SUBMISSIONS"] = str(schema.config.max_submissions)
-        shard_filter = [filt for filt in schema.filters if isinstance(filt, ShardFilter)]
-        if shard_filter:
+        if shard_filter := [
+            filt for filt in schema.filters if isinstance(filt, ShardFilter)
+        ]:
             job_params["FILTER"] = json.dumps(shard_filter[0].bundle())
 
         self._create_file(job_params)

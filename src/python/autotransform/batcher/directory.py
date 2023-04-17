@@ -57,7 +57,7 @@ class DirectoryBatcher(Batcher):
 
         # Create Batches
         batches: List[Batch] = [
-            {"items": batch_items, "title": self.prefix + ": " + directory}
+            {"items": batch_items, "title": f"{self.prefix}: {directory}"}
             for directory, batch_items in item_map.items()
         ]
 

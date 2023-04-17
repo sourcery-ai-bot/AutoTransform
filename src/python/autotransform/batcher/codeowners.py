@@ -87,9 +87,9 @@ class CodeownersBatcher(Batcher):
 
         # Add batches based on team owners
         for team_owner, team_items in team_owners.items():
+            i = 1
             if self.max_batch_size is not None and len(team_items) > self.max_batch_size:
                 num_chunks = math.ceil(len(team_items) / self.max_batch_size)
-                i = 1
                 chunk_size = math.ceil(len(team_items) / num_chunks)
                 item_chunks = [
                     team_items[i : i + chunk_size] for i in range(0, len(team_items), chunk_size)
@@ -97,7 +97,6 @@ class CodeownersBatcher(Batcher):
                 title = f"[{i}/{num_chunks}]{self.prefix} {team_owner}"
             else:
                 num_chunks = 1
-                i = 1
                 item_chunks = [team_items]
                 title = f"{self.prefix} {team_owner}"
             for chunk_items in item_chunks:
@@ -115,9 +114,9 @@ class CodeownersBatcher(Batcher):
 
         # Add batches based on individual owners
         for individual_owner, individual_items in individual_owners.items():
+            i = 1
             if self.max_batch_size is not None and len(individual_items) > self.max_batch_size:
                 num_chunks = math.ceil(len(individual_items) / self.max_batch_size)
-                i = 1
                 chunk_size = math.ceil(len(individual_items) / num_chunks)
                 item_chunks = [
                     individual_items[i : i + chunk_size]
@@ -126,7 +125,6 @@ class CodeownersBatcher(Batcher):
                 title = f"[{i}/{num_chunks}]{self.prefix} {individual_owner}"
             else:
                 num_chunks = 1
-                i = 1
                 item_chunks = [individual_items]
                 title = f"{self.prefix} {individual_owner}"
             for chunk_items in item_chunks:
@@ -144,9 +142,9 @@ class CodeownersBatcher(Batcher):
 
         # Add unowned batch
         if no_owners:
+            i = 1
             if self.max_batch_size is not None and len(no_owners) > self.max_batch_size:
                 num_chunks = math.ceil(len(no_owners) / self.max_batch_size)
-                i = 1
                 chunk_size = math.ceil(len(no_owners) / num_chunks)
                 item_chunks = [
                     no_owners[i : i + chunk_size] for i in range(0, len(no_owners), chunk_size)
@@ -154,7 +152,6 @@ class CodeownersBatcher(Batcher):
                 title = f"[{i}/{num_chunks}]{self.prefix} unowned"
             else:
                 num_chunks = 1
-                i = 1
                 item_chunks = [no_owners]
                 title = f"{self.prefix} unowned"
             for chunk_items in item_chunks:

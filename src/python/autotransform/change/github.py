@@ -195,9 +195,11 @@ class GithubChange(Change):
             bool: Whether the abandon was completed successfully.
         """
 
-        if not self._pull_request.close():
-            return False
-        return self._pull_request.delete_branch()
+        return (
+            self._pull_request.delete_branch()
+            if self._pull_request.close()
+            else False
+        )
 
     def add_labels(self, labels: List[str]) -> bool:
         """Adds labels to an outstanding Change.
@@ -246,9 +248,11 @@ class GithubChange(Change):
             bool: Whether the merge was completed successfully.
         """
 
-        if not self._pull_request.merge():
-            return False
-        return self._pull_request.delete_branch()
+        return (
+            self._pull_request.delete_branch()
+            if self._pull_request.merge()
+            else False
+        )
 
     def remove_label(self, label: str) -> bool:
         """Removes a label from an outstanding Change.
@@ -283,8 +287,9 @@ class GithubChange(Change):
         """
 
         data: Dict[str, str] = {}
-        gist_match = re.search("<<<Automation Info Gist: (.*)>>>", self._pull_request.body)
-        if gist_match:
+        if gist_match := re.search(
+            "<<<Automation Info Gist: (.*)>>>", self._pull_request.body
+        ):
             gist = GithubUtils.get(self.full_github_name).get_gist(gist_match.groups()[0])
             data["schema"] = gist.get_file_content("schema") or ""
             data["batch"] = gist.get_file_content("batch") or ""
@@ -294,12 +299,14 @@ class GithubChange(Change):
             for line in self._pull_request.body.splitlines():
                 if line == GithubUtils.BEGIN_SCHEMA:
                     cur_line_placement = "schema"
-                elif line == GithubUtils.END_SCHEMA:
+                elif (
+                    line == GithubUtils.END_SCHEMA
+                    or line != GithubUtils.BEGIN_BATCH
+                    and line == GithubUtils.END_BATCH
+                ):
                     cur_line_placement = None
                 elif line == GithubUtils.BEGIN_BATCH:
                     cur_line_placement = "batch"
-                elif line == GithubUtils.END_BATCH:
-                    cur_line_placement = None
                 elif cur_line_placement is not None:
                     data_lines[cur_line_placement].append(line)
             data["schema"] = "\n".join(data_lines["schema"])

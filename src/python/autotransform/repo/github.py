@@ -132,11 +132,7 @@ class GithubRepo(GitRepo):
         else:
             automation_info = "\n\n" + self.get_automation_info(autotransform.schema.current, batch)
 
-        if self.commit_repo is not None:
-            head = f"{self.commit_repo}:"
-        else:
-            head = ""
-
+        head = f"{self.commit_repo}:" if self.commit_repo is not None else ""
         pull_request = GithubUtils.get(self.full_github_name).create_pull_request(
             title,
             f"{str(batch_metadata.body)}{automation_info}",

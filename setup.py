@@ -38,9 +38,10 @@ def generate_datafiles() -> List[Tuple[str, List[str]]]:
         )
     ]
 
-    for path, _, files in os.walk("examples"):
-        data_files.append((f"autotransform-{path}", [os.path.join(path, file) for file in files]))
-
+    data_files.extend(
+        (f"autotransform-{path}", [os.path.join(path, file) for file in files])
+        for path, _, files in os.walk("examples")
+    )
     return data_files
 
 

@@ -319,7 +319,9 @@ def initialize_command_main(args: Namespace) -> None:
         )
         initialize_repo(repo_dir, config, simple=simple, use_github=github, use_jenkins=jenkins)
 
-    if repo_dir == "" and choose_yes_or_no("Set up configuration for current working directory?"):
+    if not repo_dir and choose_yes_or_no(
+        "Set up configuration for current working directory?"
+    ):
         cwd_config_path = f"{get_cwd_config_dir()}/{CONFIG_FILE_NAME}"
         initialize_config(
             cwd_config_path,

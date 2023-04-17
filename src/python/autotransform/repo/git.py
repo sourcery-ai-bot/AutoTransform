@@ -53,12 +53,14 @@ class GitRepo(Repo):
             List[str]: The changed files.
         """
 
-        if status.strip() == "":
-            return []
-        return [
-            re.sub(r"^(?:\?\?|M|A|D)", "", line.strip()).strip()
-            for line in status.strip().split("\n")
-        ]
+        return (
+            [
+                re.sub(r"^(?:\?\?|M|A|D)", "", line.strip()).strip()
+                for line in status.strip().split("\n")
+            ]
+            if status.strip()
+            else []
+        )
 
     @staticmethod
     def get_branch_name(title: str) -> str:

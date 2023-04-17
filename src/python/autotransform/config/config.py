@@ -190,10 +190,7 @@ class Config(ComponentModel):
         github_token = get_str(
             "Enter the Github token to use(empty to not include one): ", secret=True
         )
-        if github_token in ["", "None"]:
-            return None
-
-        return github_token
+        return None if github_token in ["", "None"] else github_token
 
     @staticmethod
     def get_github_base_url_from_console(
@@ -224,9 +221,7 @@ class Config(ComponentModel):
         github_base_url = get_str(
             "Enter the base URL for Github API requests (i.e. https://api.<org>-github.com): "
         )
-        if github_base_url in ["", "None"]:
-            return None
-        return github_base_url
+        return None if github_base_url in ["", "None"] else github_base_url
 
     @staticmethod
     def get_jenkins_user_from_console(
@@ -254,9 +249,7 @@ class Config(ComponentModel):
             return None
 
         jenkins_user = get_str("Enter the Jenkins user: ")
-        if jenkins_user in ["", "None"]:
-            return None
-        return jenkins_user
+        return None if jenkins_user in ["", "None"] else jenkins_user
 
     @staticmethod
     def get_jenkins_token_from_console(
@@ -284,10 +277,7 @@ class Config(ComponentModel):
         jenkins_token = get_str(
             "Enter the Jenkins token to use(empty to not include one): ", secret=True
         )
-        if jenkins_token in ["", "None"]:
-            return None
-
-        return jenkins_token
+        return None if jenkins_token in ["", "None"] else jenkins_token
 
     @staticmethod
     def get_jenkins_base_url_from_console(
@@ -318,9 +308,7 @@ class Config(ComponentModel):
         jenkins_base_url = get_str(
             "Enter the base URL for Jenkins requests (i.e. https://<org>.jenkins.com): "
         )
-        if jenkins_base_url in ["", "None"]:
-            return None
-        return jenkins_base_url
+        return None if jenkins_base_url in ["", "None"] else jenkins_base_url
 
     @staticmethod
     def get_component_directory_from_console(
@@ -351,9 +339,7 @@ class Config(ComponentModel):
             return None
 
         component_directory = get_str("Enter the directory with custom component JSON files: ")
-        if component_directory in ["", "None"]:
-            return None
-        return component_directory
+        return None if component_directory in ["", "None"] else component_directory
 
     @staticmethod
     def get_local_runner_from_console(

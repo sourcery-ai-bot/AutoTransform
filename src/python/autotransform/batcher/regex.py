@@ -51,7 +51,7 @@ class FileRegexBatcher(Batcher):
             assert isinstance(item, FileItem)
             match = re.match(item.get_content(), self.group_by)
             assert match is not None, "Must have value to use for grouping"
-            group_by_val = match.group(1)
+            group_by_val = match[1]
             if group_by_val in groups:
                 groups[group_by_val].append(item)
             else:
@@ -61,15 +61,12 @@ class FileRegexBatcher(Batcher):
         for group_title, group_items in groups.items():
             batch: Batch = {"items": group_items, "title": group_title}
             if self.metadata_keys:
-                metadata: Dict[str, List[Any]] = {}
-                for key in self.metadata_keys:
-                    metadata[key] = []
+                metadata: Dict[str, List[Any]] = {key: [] for key in self.metadata_keys}
                 for item in group_items:
                     file_content = item.get_content()
                     for key, regex in self.metadata_keys.items():
-                        match = re.match(file_content, regex)
-                        if match:
-                            metadata[key].append(match.group(1))
+                        if match := re.match(file_content, regex):
+                            metadata[key].append(match[1])
                 for key in self.metadata_keys:
                     metadata[key] = list(set(metadata[key]))
                 batch["metadata"] = metadata

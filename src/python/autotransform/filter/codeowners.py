@@ -49,9 +49,7 @@ class CodeownersFilter(Filter):
 
     @cached_property
     def _formated_owner(self) -> Optional[str]:
-        if self.owner is None:
-            return None
-        return self.owner.removeprefix("@")
+        return None if self.owner is None else self.owner.removeprefix("@")
 
     def _is_valid(self, item: Item) -> bool:
         """Checks whether the Item is a file owned by the supplied owner. If no owner
@@ -68,14 +66,8 @@ class CodeownersFilter(Filter):
             return False
         owners = self._owners.of(item.get_path())
 
-        if self.owner is None and not owners:
-            return True
-
         if self.owner is None:
-            return False
-
-        for owner in owners:
-            if self._formated_owner == owner[1].removeprefix("@"):
-                return True
-
-        return False
+            return not owners
+        return any(
+            self._formated_owner == owner[1].removeprefix("@") for owner in owners
+        )

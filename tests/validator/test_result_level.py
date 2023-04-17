@@ -69,24 +69,24 @@ def test_le():
 def test_eq():
     """Test that == checks work"""
     assert ValidationResultLevel.ERROR == ValidationResultLevel.ERROR
-    assert not ValidationResultLevel.ERROR == ValidationResultLevel.WARNING
-    assert not ValidationResultLevel.ERROR == ValidationResultLevel.NONE
-    assert not ValidationResultLevel.WARNING == ValidationResultLevel.ERROR
+    assert ValidationResultLevel.ERROR != ValidationResultLevel.WARNING
+    assert ValidationResultLevel.ERROR != ValidationResultLevel.NONE
+    assert ValidationResultLevel.WARNING != ValidationResultLevel.ERROR
     assert ValidationResultLevel.WARNING == ValidationResultLevel.WARNING
-    assert not ValidationResultLevel.WARNING == ValidationResultLevel.NONE
-    assert not ValidationResultLevel.NONE == ValidationResultLevel.ERROR
-    assert not ValidationResultLevel.NONE == ValidationResultLevel.WARNING
+    assert ValidationResultLevel.WARNING != ValidationResultLevel.NONE
+    assert ValidationResultLevel.NONE != ValidationResultLevel.ERROR
+    assert ValidationResultLevel.NONE != ValidationResultLevel.WARNING
     assert ValidationResultLevel.NONE == ValidationResultLevel.NONE
 
 
 def test_ne():
     """Test that != checks work"""
-    assert not ValidationResultLevel.ERROR != ValidationResultLevel.ERROR
+    assert ValidationResultLevel.ERROR == ValidationResultLevel.ERROR
     assert ValidationResultLevel.ERROR != ValidationResultLevel.WARNING
     assert ValidationResultLevel.ERROR != ValidationResultLevel.NONE
     assert ValidationResultLevel.WARNING != ValidationResultLevel.ERROR
-    assert not ValidationResultLevel.WARNING != ValidationResultLevel.WARNING
+    assert ValidationResultLevel.WARNING == ValidationResultLevel.WARNING
     assert ValidationResultLevel.WARNING != ValidationResultLevel.NONE
     assert ValidationResultLevel.NONE != ValidationResultLevel.ERROR
     assert ValidationResultLevel.NONE != ValidationResultLevel.WARNING
-    assert not ValidationResultLevel.NONE != ValidationResultLevel.NONE
+    assert ValidationResultLevel.NONE == ValidationResultLevel.NONE

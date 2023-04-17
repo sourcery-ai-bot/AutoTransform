@@ -90,20 +90,19 @@ def get_config() -> Config:
         ConfigFetcherName.ENVIRONMENT: EnvironmentConfigFetcher(),
     }
 
-    if fetcher_to_use is not None:
-        if fetcher_to_use in fetchers:
-            fetcher: ConfigFetcher = fetchers[fetcher_to_use]
-        else:
-            try:
-                fetcher_info = json.loads(fetcher_to_use)
-                module = importlib.import_module(fetcher_info["module"])
-                fetcher = getattr(module, fetcher_info["class_name"]).from_data(
-                    fetcher_info.get("data", {})
-                )
-                assert isinstance(fetcher, ConfigFetcher)
-            except Exception:  # pylint: disable=broad-except
-                fetcher = DefaultConfigFetcher()
-    else:
+    if fetcher_to_use is None:
         fetcher = DefaultConfigFetcher()
 
+    elif fetcher_to_use in fetchers:
+        fetcher: ConfigFetcher = fetchers[fetcher_to_use]
+    else:
+        try:
+            fetcher_info = json.loads(fetcher_to_use)
+            module = importlib.import_module(fetcher_info["module"])
+            fetcher = getattr(module, fetcher_info["class_name"]).from_data(
+                fetcher_info.get("data", {})
+            )
+            assert isinstance(fetcher, ConfigFetcher)
+        except Exception:  # pylint: disable=broad-except
+            fetcher = DefaultConfigFetcher()
     return fetcher.get_config()

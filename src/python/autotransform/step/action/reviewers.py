@@ -47,7 +47,7 @@ class AddReviewersAction(Action):
             List[str]: The unmodified reviewers to add.
         """
 
-        if any(reviewer == "" for reviewer in v):
+        if "" in v:
             raise ValueError("Reviewers must be non-empty strings")
         return v
 
@@ -67,7 +67,7 @@ class AddReviewersAction(Action):
             List[str]: The unmodified team reviewers to add.
         """
 
-        if any(team_reviewer == "" for team_reviewer in v):
+        if "" in v:
             raise ValueError("Team reviewers must be non-empty strings")
         return v
 

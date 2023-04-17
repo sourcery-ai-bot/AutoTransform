@@ -51,7 +51,7 @@ class DirectoryInput(Input):
         if "path" in values:
             if "paths" in values:
                 raise ValueError("Can not supply both path and paths for DirectoryInput")
-            values["paths"] = set([str(values["path"])])
+            values["paths"] = {str(values["path"])}
         values["paths"] = list(set(values["paths"]))
         return values
 

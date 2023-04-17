@@ -71,8 +71,9 @@ class GithubRunner(Runner):
         workflow_inputs = {"schema": schema.config.schema_name}
         if schema.config.max_submissions:
             workflow_inputs["max_submissions"] = str(schema.config.max_submissions)
-        shard_filter = [filt for filt in schema.filters if isinstance(filt, ShardFilter)]
-        if shard_filter:
+        if shard_filter := [
+            filt for filt in schema.filters if isinstance(filt, ShardFilter)
+        ]:
             workflow_inputs["filter"] = json.dumps(shard_filter[0].bundle())
 
         # Dispatch a Workflow run

@@ -51,9 +51,7 @@ class ConditionalStep(Step):
             List[Action]: The Actions the Step wants to take.
         """
 
-        if self.condition.check(change):
-            return self.actions
-        return []
+        return self.actions if self.condition.check(change) else []
 
     def continue_management(self, change: Change) -> bool:
         """Checks if management should be continued after this Step when Actions were provided.

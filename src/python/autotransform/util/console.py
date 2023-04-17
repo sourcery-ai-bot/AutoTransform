@@ -212,7 +212,7 @@ def choose_option(prompt: str, options: List[Tuple[T, List[str]]]) -> T:
         str: The selected option
     """
 
-    assert len(options) > 0, "Choosing from an empty list of options is not possible."
+    assert options, "Choosing from an empty list of options is not possible."
     option_list = [option[1][0] for option in options]
     while True:
         choice = get_str(f"{prompt}({'/'.join(option_list)}) ").lower()
@@ -253,7 +253,7 @@ def choose_options_from_list(
         List[T]: The chosen options.
     """
 
-    assert len(options) > 0, "Choosing from an empty list of options is not possible."
+    assert options, "Choosing from an empty list of options is not possible."
     for idx, option in enumerate(options):
         print(f"{INPUT_COLOR}{idx + 1}) {option[1]}{RESET_COLOR}")
     choices = input_ints(

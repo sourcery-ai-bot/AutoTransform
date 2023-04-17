@@ -121,19 +121,20 @@ def update_comparison(condition_data: Dict[str, Any]) -> None:
     Args:
         condition_data (Dict[str, Any]): The Condition data to update
     """
-    if "comparison" in condition_data:
-        if condition_data["comparison"] == "eq":
-            condition_data["comparison"] = ComparisonType.EQUAL
-        if condition_data["comparison"] == "neq":
-            condition_data["comparison"] = ComparisonType.NOT_EQUAL
-        if condition_data["comparison"] == "gt":
-            condition_data["comparison"] = ComparisonType.GREATER_THAN
-        if condition_data["comparison"] == "gte":
-            condition_data["comparison"] = ComparisonType.GREATER_THAN_OR_EQUAL
-        if condition_data["comparison"] == "lt":
-            condition_data["comparison"] = ComparisonType.LESS_THAN
-        if condition_data["comparison"] == "lte":
-            condition_data["comparison"] = ComparisonType.LESS_THAN_OR_EQUAL
+    if "comparison" not in condition_data:
+        return
+    if condition_data["comparison"] == "eq":
+        condition_data["comparison"] = ComparisonType.EQUAL
+    if condition_data["comparison"] == "neq":
+        condition_data["comparison"] = ComparisonType.NOT_EQUAL
+    if condition_data["comparison"] == "gt":
+        condition_data["comparison"] = ComparisonType.GREATER_THAN
+    if condition_data["comparison"] == "gte":
+        condition_data["comparison"] = ComparisonType.GREATER_THAN_OR_EQUAL
+    if condition_data["comparison"] == "lt":
+        condition_data["comparison"] = ComparisonType.LESS_THAN
+    if condition_data["comparison"] == "lte":
+        condition_data["comparison"] = ComparisonType.LESS_THAN_OR_EQUAL
 
 
 if __name__ == "__main__":

@@ -215,9 +215,7 @@ class GithubUtils:
                 event="workflow_dispatch",
                 created=f">={check_time.isoformat()}",
             )
-            if not res.workflow_runs:
-                return ""
-            return res.workflow_runs[0].html_url
+            return res.workflow_runs[0].html_url if res.workflow_runs else ""
         except HTTPError as err:
             EventHandler.get().handle(
                 WarningEvent({"message": f"Failed dispatch workflow {workflow}: {err}"})
@@ -312,10 +310,10 @@ class PullRequest:
         review_states = ["APPROVED", "CHANGES_REQUESTED"]
         reviews = self._api.pulls.list_reviews(pull_number=self.number)
         reviews.reverse()
-        for review in reviews:
-            if review.state in review_states:
-                return review.state
-        return None
+        return next(
+            (review.state for review in reviews if review.state in review_states),
+            None,
+        )
 
     def get_test_state(self) -> Optional[str]:
         """Gets the state of tests on the PR using the checks API.
@@ -338,10 +336,14 @@ class PullRequest:
             if check.status != "completed":
                 return "pending"
         results = {run.conclusion for run in checks.check_runs}
-        for conclusion in possible_conclusions:
-            if conclusion in results:
-                return conclusion
-        return "success"
+        return next(
+            (
+                conclusion
+                for conclusion in possible_conclusions
+                if conclusion in results
+            ),
+            "success",
+        )
 
     def get_labels(self) -> List[str]:
         """Gets the labels for a Pull Request.

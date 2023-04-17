@@ -47,7 +47,7 @@ class AddLabelsAction(Action):
 
         if not v:
             raise ValueError("At least 1 label must be provided")
-        if any(label == "" for label in v):
+        if "" in v:
             raise ValueError("Labels must be non-empty strings")
         return v
 
@@ -92,7 +92,7 @@ class RemoveLabelAction(Action):
             str: The unmodified label of the comment.
         """
 
-        if v == "":
+        if not v:
             raise ValueError("Label to remove must be non-empty")
         return v
 

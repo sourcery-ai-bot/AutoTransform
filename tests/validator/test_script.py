@@ -343,19 +343,16 @@ def test_per_item_first_fails(mock_run):
     """Test that a failure code for the first Item causes the right result."""
 
     def get_proc(
-        args: List[str],
-        capture_output: bool = False,
-        encoding: str = "UTF-8",
-        check: bool = False,
-        timeout: Optional[int] = None,
-    ) -> subprocess.CompletedProcess:
+            args: List[str],
+            capture_output: bool = False,
+            encoding: str = "UTF-8",
+            check: bool = False,
+            timeout: Optional[int] = None,
+        ) -> subprocess.CompletedProcess:
         proc = mock.create_autospec(subprocess.CompletedProcess)
         proc.stdout = ""
         proc.stderr = ""
-        if args[1] == "foo.py":
-            proc.returncode = 0
-        else:
-            proc.returncode = 1
+        proc.returncode = 0 if args[1] == "foo.py" else 1
         return proc
 
     mock_run.side_effect = get_proc
@@ -378,19 +375,16 @@ def test_per_item_second_fails(mock_run):
     """Test that a failure code for the second Item causes the right result."""
 
     def get_proc(
-        args: List[str],
-        capture_output: bool = False,
-        encoding: str = "UTF-8",
-        check: bool = False,
-        timeout: Optional[int] = None,
-    ) -> subprocess.CompletedProcess:
+            args: List[str],
+            capture_output: bool = False,
+            encoding: str = "UTF-8",
+            check: bool = False,
+            timeout: Optional[int] = None,
+        ) -> subprocess.CompletedProcess:
         proc = mock.create_autospec(subprocess.CompletedProcess)
         proc.stdout = ""
         proc.stderr = ""
-        if args[1] == "bar.py":
-            proc.returncode = 0
-        else:
-            proc.returncode = 1
+        proc.returncode = 0 if args[1] == "bar.py" else 1
         return proc
 
     mock_run.side_effect = get_proc
